@@ -6,6 +6,7 @@ version '1.0.0'
 lua54 'enabled'
 
 shared_scripts {
+    '@ox_lib/init.lua',
     'config.lua',
 }
 
