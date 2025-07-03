@@ -1,13 +1,6 @@
 local lastDamageData = {}
 
-function debugprint(message)
-    if Config.debug then
-        print(message)
-    end
-end
-
-RegisterServerEvent('fsg_misclick:processDamage')
-AddEventHandler('fsg_misclick:processDamage', function(attackerId, victimId, healthLost, armorLost)
+RegisterServerEvent('fsg_misclick:processDamage', function(attackerId, victimId, healthLost, armorLost)
     debugprint("DEBUG: Received damage event. Attacker:", attackerId, "Victim:", victimId, "Health Lost:", healthLost, "Armor Lost:", armorLost)
 
     lastDamageData[attackerId] = {
@@ -18,7 +11,7 @@ AddEventHandler('fsg_misclick:processDamage', function(attackerId, victimId, hea
     debugprint("DEBUG: Stored damage. Attacker:", attackerId, "Victim:", victimId, "Health Lost:", healthLost, "Armor Lost:", armorLost)
 end)
 
-RegisterCommand('mc', function(source, args, rawCommand)
+RegisterCommand(Config.Command, function(source, args, rawCommand)
     local src = source
     local damageInfo = lastDamageData[src]
 
@@ -47,7 +40,6 @@ RegisterCommand('mc', function(source, args, rawCommand)
     debugprint("DEBUG: Cleared lastDamageData for", src)
 end, false)
 
-RegisterNetEvent('playerDropped')
 AddEventHandler('playerDropped', function()
     local src = source
     lastDamageData[src] = nil
