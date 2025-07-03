@@ -1,5 +1,7 @@
 Config = {
     debug = false,
+
+    Command = 'mc', 
 }
 
 function debugprint(message)
