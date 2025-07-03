@@ -1,17 +1,11 @@
 local lastHealth = nil
 local lastArmor = nil
 
-function debugprint(message)
-    if Config.debug then
-        print(message)
-    end
-end
-
-Citizen.CreateThread(function()
+CreateThread(function()
     while true do
-        Citizen.Wait(100)
+        Wait(100)
 
-        local playerPed = PlayerPedId()
+        local playerPed = cache.ped
         local currentHealth = GetEntityHealth(playerPed)
         local currentArmor = GetPedArmour(playerPed)
 
@@ -64,9 +58,8 @@ function IsPlayerAimingAtMe(victimPed, attackerPed)
     return HasEntityClearLosToEntity(victimPed, attackerPed, 17) and IsPlayerFreeAimingAtEntity(NetworkGetPlayerIndexFromPed(attackerPed), victimPed)
 end
 
-RegisterNetEvent('fsg_misclick:restorePartialHealth')
-AddEventHandler('fsg_misclick:restorePartialHealth', function(healthAmount)
-    local playerPed = PlayerPedId()
+RegisterNetEvent('fsg_misclick:restorePartialHealth', function(healthAmount)
+    local playerPed = cache.ped
     local currentHealth = GetEntityHealth(playerPed)
     local maxHealth = GetEntityMaxHealth(playerPed)
 
@@ -76,9 +69,8 @@ AddEventHandler('fsg_misclick:restorePartialHealth', function(healthAmount)
     debugprint("DEBUG: Restored", healthAmount, "health. New health:", newHealth)
 end)
 
-RegisterNetEvent('fsg_misclick:restorePartialArmor')
-AddEventHandler('fsg_misclick:restorePartialArmor', function(armorAmount)
-    local playerPed = PlayerPedId()
+RegisterNetEvent('fsg_misclick:restorePartialArmor', function(armorAmount)
+    local playerPed = cache.ped
     local currentArmor = GetPedArmour(playerPed)
 
     local newArmor = math.min(currentArmor + armorAmount, 100)
